@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Patricia Bustos Carvajal | Psicóloga Online</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary: #5f8f88;
+      --secondary: #f2f6f5;
+      --dark: #2b3a38;
+      --accent: #d6b36a;
+      --whatsapp: #25d366;
+      --white: #ffffff;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--secondary);
+      color: var(--dark);
+      line-height: 1.7;
+      scroll-behavior: smooth;
+    }
+
+    h1, h2, h3 { font-family: 'Playfair Display', serif; }
+
+    /* OFERTA NO INTRUSIVA: BADGE FLOTANTE */
+    .minimal-offer-badge {
+      position: fixed;
+      bottom: 105px;
+      right: 30px;
+      z-index: 2000;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    .offer-bubble {
+      background: var(--white);
+      color: var(--dark);
+      padding: 12px 20px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      border: 1px solid #eee;
+      max-width: 250px;
+      margin-bottom: 10px;
+      position: relative;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      opacity: 0;
+      transform: translateY(20px) scale(0.9);
+      pointer-events: none;
+    }
+
+    .offer-bubble.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+
+    .offer-bubble:after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      right: 20px;
+      width: 0; height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-top: 8px solid var(--white);
+    }
+
+    .offer-bubble p { font-size: 0.85rem; margin: 0; line-height: 1.4; }
+    .offer-bubble strong { color: var(--primary); display: block; margin-bottom: 4px; }
+
+    .offer-trigger {
+      background: var(--accent);
+      color: var(--dark);
+      height: 36px;
+      padding: 0 15px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .dot { width: 8px; height: 8px; background: var(--white); border-radius: 50%; animation: blink 2s infinite; }
+
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+    /* WHATSAPP FLOAT */
+    .whatsapp-float {
+      position: fixed; bottom: 30px; right: 30px;
+      background-color: var(--whatsapp); color: #FFF;
+      border-radius: 50px; width: 60px; height: 60px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 30px; z-index: 1000; box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      text-decoration: none;
+    }
+
+    /* HEADER */
+    header {
+      min-height: 85vh;
+      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+      url('PatriciaBustos.jpg') center/cover no-repeat;
+      color: white;
+      display: flex; align-items: center; justify-content: center; text-align: center; padding: 2rem;
+    }
+
+    header h1 { font-size: 3.5rem; margin-bottom: 1rem; }
+    header p { font-size: 1.3rem; max-width: 800px; margin: auto; font-weight: 300; }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px; margin-top: 1.5rem;
+      background: var(--primary); color: white; padding: 0.8rem 2.2rem; border-radius: 50px;
+      text-decoration: none; font-weight: 500; transition: all 0.3s ease; border: none; cursor: pointer;
+    }
+    .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
+
+    /* SECCIONES */
+    section { padding: 6rem 2rem; max-width: 1200px; margin: auto; }
+
+    .services { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 2rem; margin-top: 3rem; }
+    
+    .card {
+      background: white; padding: 2.5rem 1.5rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      text-align: center; transition: all 0.3s ease;
+    }
+    .card:hover { transform: translateY(-10px); }
+    .card i { font-size: 2.5rem; color: var(--primary); margin-bottom: 1.5rem; }
+
+    /* ASISTENTE AI */
+    .ai-section {
+      background: var(--white); padding: 4rem 2rem; margin: 4rem auto; border-radius: 30px;
+      max-width: 900px; box-shadow: 0 15px 40px rgba(0,0,0,0.04); border: 1px solid #f0f0f0;
+    }
+
+    textarea#user-mood {
+      width: 100%; border: none; background: #f9f9f9; padding: 1rem; font-size: 1.1rem;
+      min-height: 100px; resize: none; outline: none; font-family: inherit; border-radius: 15px;
+    }
+
+    #ai-response {
+      margin-top: 2rem; padding: 2rem; border-left: 4px solid var(--accent); background: #fdfdfd;
+      display: none; border-radius: 0 12px 12px 0; color: #444; line-height: 1.6; font-size: 1.05rem;
+    }
+
+    footer { background: #e8efee; text-align: center; padding: 4rem 2rem; font-size: 0.9rem; }
+
+    @media (max-width: 768px) {
+      header h1 { font-size: 2.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Oferta No Intrusiva -->
+<div class="minimal-offer-badge">
+  <div class="offer-bubble" id="offerBubble" onclick="window.open('https://wa.me/972534368687?text=Hola%20Patricia,%20deseo%20mi%20sesión%20de%20cortesía', '_blank')">
+    <p><strong>Sesión de cortesía</strong> Tu primera consulta online es gratuita. Pulsa para agendar conmigo.</p>
+  </div>
+  <div class="offer-trigger" onclick="toggleOffer()">
+    <span class="dot"></span>
+    <i class="fas fa-gift"></i> SESIÓN GRATUITA
+  </div>
+</div>
+
+<a href="https://wa.me/972534368687" class="whatsapp-float" target="_blank">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+<header>
+  <div>
+    <h1>Patricia Bustos Carvajal</h1>
+    <p>Psicoterapia online: un espacio seguro para redescubrir tu equilibrio emocional.</p>
+    <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+        <a href="#contacto" class="btn" style="background: var(--accent); color: var(--dark);">Reservar Cita</a>
+        <a href="#asistente" class="btn" style="background: transparent; border: 2px solid white;">Asistente Online</a>
+    </div>
+  </div>
+</header>
+
+<section id="sobre-mi">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 4rem; align-items: center;">
+    <div>
+      <h2 style="font-size: 2.5rem; margin-bottom: 1.5rem;">Caminar hacia el bienestar</h2>
+      <p>Soy <strong>Patricia Bustos Carvajal</strong>, psicóloga online comprometida con acompañarte en tu proceso de sanación.</p>
+      <br>
+      <p>Entiendo la terapia como un puente hacia una vida más plena y consciente, donde cada sesión es un paso hacia la libertad emocional.</p>
+    </div>
+    <div>
+        <img src="PatriciaBustos.jpg" alt="Patricia Bustos" style="width: 100%; border-radius: 30px; box-shadow: 20px 20px 0px var(--white);" />
+    </div>
+  </div>
+</section>
+
+<section id="servicios">
+  <h2 style="text-align: center; font-size: 2.8rem; margin-bottom: 3rem;">Especialidades</h2>
+  <div class="services">
+    <div class="card">
+      <i class="fas fa-leaf"></i>
+      <h3>Ansiedad y Estrés</h3>
+      <p>Herramientas para recuperar la calma y el control de tu vida cotidiana.</p>
+    </div>
+    <div class="card">
+      <i class="fas fa-heart"></i>
+      <h3>Autoestima</h3>
+      <p>Aprende a valorarte y a construir una relación sana contigo misma.</p>
+    </div>
+    <div class="card">
+      <i class="fas fa-mountain"></i>
+      <h3>Duelos y Cambios</h3>
+      <p>Acompañamiento respetuoso para transitar pérdidas y nuevos comienzos.</p>
+    </div>
+    <div class="card">
+      <i class="fas fa-users"></i>
+      <h3>Vínculos Sanos</h3>
+      <p>Fortalece tus relaciones con comunicación asertiva y límites claros.</p>
+    </div>
+  </div>
+</section>
+
+<section id="asistente">
+  <div class="ai-section">
+    <div style="text-align: center;">
+      <i class="fas fa-sparkles" style="font-size: 2rem; color: var(--primary); margin-bottom: 1rem;"></i>
+      <h2>¿Cómo te sientes hoy?</h2>
+      <p style="color: #666; max-width: 600px; margin: auto; margin-bottom: 2rem;">Cuéntame brevemente qué te preocupa y te daré un consejo sencillo para ayudarte a sentir mejor.</p>
+    </div>
+    <div class="ai-box" style="background: #f9f9f9; padding: 2rem; border-radius: 20px;">
+      <textarea id="user-mood" placeholder="Escribe aquí lo que sientes..."></textarea>
+      <button onclick="getAIAdvice()" class="btn" style="width: 100%; margin-top: 1rem;"><i class="fas fa-heart"></i> Recibir consejo de Patricia</button>
+    </div>
+    <div id="loading" style="display:none; text-align: center; margin-top: 1.5rem; color: var(--primary);">
+        <i class="fas fa-circle-notch fa-spin"></i> Te escucho...
+    </div>
+    <div id="ai-response"></div>
+  </div>
+</section>
+
+<section id="contacto" style="text-align: center;">
+  <h2>Comienza hoy</h2>
+  <p style="margin-bottom: 2rem;">Si tienes dudas sobre cómo funciona la terapia online, hablemos directamente.</p>
+  <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+    <a href="https://wa.me/972534368687" class="btn" style="background: var(--whatsapp);"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+    <a href="mailto:patriciabustos3@gmail.com" class="btn" style="background: var(--dark); color: white;"><i class="fas fa-envelope"></i> Email</a>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Patricia Bustos Carvajal · Psicóloga Colegiada</p>
+</footer>
+
+<script>
+  const apiKey = "";
+
+  function toggleOffer() {
+    const bubble = document.getElementById('offerBubble');
+    bubble.classList.toggle('visible');
+  }
+
+  setTimeout(() => {
+    const bubble = document.getElementById('offerBubble');
+    if (bubble) bubble.classList.add('visible');
+  }, 5000);
+
+  async function callGemini(promptText) {
+    const responseDiv = document.getElementById('ai-response');
+    const loading = document.getElementById('loading');
+    responseDiv.style.display = 'none';
+    loading.style.display = 'block';
+
+    let retries = 0;
+    while (retries < 5) {
+      try {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: promptText }] }],
+            systemInstruction: { parts: [{ text: "Eres Patricia Bustos, psicóloga. Responde de forma muy simple, corta y con mucha empatía. Valida lo que siente el usuario con amabilidad y dale un consejo práctico y fácil para hoy. Evita palabras técnicas complicadas. Habla de tú a tú, como una persona cercana. Al final, menciona suavemente que si quiere hablar más puede usar su primera sesión gratuita." }] }
+          })
+        });
+        const data = await response.json();
+        const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+        
+        loading.style.display = 'none';
+        responseDiv.innerHTML = text.replace(/\n/g, '<br>');
+        responseDiv.style.display = 'block';
+        return;
+      } catch (e) {
+        retries++;
+        await new Promise(r => setTimeout(r, Math.pow(2, retries) * 1000));
+      }
+    }
+    loading.style.display = 'none';
+  }
+
+  function getAIAdvice() {
+    const mood = document.getElementById('user-mood').value;
+    if (mood.length < 5) return;
+    callGemini(`El usuario me dice: "${mood}"`);
+  }
+</script>
+
+</body>
+</html>
